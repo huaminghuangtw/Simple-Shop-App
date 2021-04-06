@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SimpleShop": {
+      "commandName": "Project",
+      "commandLineArgs": "SampleOrder.tag"
+    }
+  }
+}

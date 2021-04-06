@@ -15,19 +15,20 @@ public class ToBeWritten
         invoicePosition = new InvoicePosition
         {
             Customer = new Customer(),
-            ItemIdentifier = 0,
+            ItemNumber = 0,
             ItemName = "SpringRoll",
-            Orders = 2,
-            SingleUnitPrice = 3.50m
+            AmountOrdered = 2,
+            UnitPrice = 3.50m
         };
             
         pairs = new KeywordPair[]
         {
-            new KeywordPair(new Keyword("ItemNumber"), invoicePosition.ItemIdentifier.ToString()),
+            new KeywordPair(new Keyword("ItemNumber"), invoicePosition.ItemNumber.ToString()),
             new KeywordPair(new Keyword("ItemName"), invoicePosition.ItemName),
             new KeywordPair(new Keyword("CustomerName"), invoicePosition.Customer.Name),
-            new KeywordPair(new Keyword("AmountOrdered"), invoicePosition.Orders.ToString()),
-            new KeywordPair(new Keyword("NetPrice"), invoicePosition.SingleUnitPrice.ToString())
+            new KeywordPair(new Keyword("CustomerType"), invoicePosition.Customer.Type),
+            new KeywordPair(new Keyword("AmountOrdered"), invoicePosition.AmountOrdered.ToString()),
+            new KeywordPair(new Keyword("UnitPrice"), invoicePosition.UnitPrice.ToString())
         };
     }
 
@@ -40,11 +41,11 @@ public class ToBeWritten
     public void Invoice_CreateOrderOrderedInput_Valid()
     {
         var invoice = InvoicePosition.CreateFromPairs(pairs);
-        Assert.AreEqual(invoicePosition.ItemIdentifier, invoice.ItemIdentifier);
+        Assert.AreEqual(invoicePosition.ItemNumber, invoice.ItemNumber);
         Assert.AreEqual(invoicePosition.ItemName.GetType(), invoice.ItemName.GetType());
         Assert.AreEqual(invoicePosition.Customer.Name, invoice.Customer.Name);
-        Assert.AreEqual(invoicePosition.Orders, invoice.Orders);
-        Assert.AreEqual(invoicePosition.SingleUnitPrice, invoice.SingleUnitPrice);
+        Assert.AreEqual(invoicePosition.AmountOrdered, invoice.AmountOrdered);
+        Assert.AreEqual(invoicePosition.UnitPrice, invoice.UnitPrice);
     }
         
     /// <summary>
@@ -58,11 +59,11 @@ public class ToBeWritten
     {
         pairs.Shuffle();
         var invoice = InvoicePosition.CreateFromPairs(pairs);
-        Assert.AreEqual(invoicePosition.ItemIdentifier, invoice.ItemIdentifier);
+        Assert.AreEqual(invoicePosition.ItemNumber, invoice.ItemNumber);
         Assert.AreEqual(invoicePosition.ItemName.GetType(), invoice.ItemName.GetType());
         Assert.AreEqual(invoicePosition.Customer.Name, invoice.Customer.Name);
-        Assert.AreEqual(invoicePosition.Orders, invoice.Orders);
-        Assert.AreEqual(invoicePosition.SingleUnitPrice, invoice.SingleUnitPrice);
+        Assert.AreEqual(invoicePosition.AmountOrdered, invoice.AmountOrdered);
+        Assert.AreEqual(invoicePosition.UnitPrice, invoice.UnitPrice);
     }
 
     /// <summary>
@@ -73,19 +74,19 @@ public class ToBeWritten
     [Test]
     public void Invoice_CreateOrderOrderedButWrongInput_DefaultValues()
     {
-        pairs[3] = new KeywordPair(new Keyword("AmountOrdered"), "+%&/" + invoicePosition.Orders.ToString());
-        pairs[4] = new KeywordPair(new Keyword("NetPrice"), invoicePosition.SingleUnitPrice.ToString() + "%&öä/");
+        pairs[4] = new KeywordPair(new Keyword("AmountOrdered"), "+%&/" + invoicePosition.AmountOrdered.ToString());
+        pairs[5] = new KeywordPair(new Keyword("UnitPrice"), invoicePosition.UnitPrice.ToString() + "%&öä/");
 
         var invoice = InvoicePosition.CreateFromPairs(pairs);
-        Assert.AreEqual(invoicePosition.ItemIdentifier, invoice.ItemIdentifier);
+        Assert.AreEqual(invoicePosition.ItemNumber, invoice.ItemNumber);
         Assert.AreEqual(invoicePosition.ItemName.GetType(), invoice.ItemName.GetType());
         Assert.AreEqual(invoicePosition.Customer.Name, invoice.Customer.Name);
-        Assert.AreEqual(invoicePosition.Orders, invoice.Orders);
-        Assert.AreEqual(invoicePosition.SingleUnitPrice, invoice.SingleUnitPrice);
+        Assert.AreEqual(invoicePosition.AmountOrdered, invoice.AmountOrdered);
+        Assert.AreEqual(invoicePosition.UnitPrice, invoice.UnitPrice);
     }
         
     /// <summary>
-    /// Branch out Customer.CreateCustomer to provide different Customertypes.
+    /// Branch out Customer.CreateCustomer to provide different customer types.
     /// Add Company!
     /// Rating 2
     /// </summary>
@@ -100,7 +101,7 @@ public class ToBeWritten
     }
 
     /// <summary>
-    /// Branch out Customer.CreateCustomer to provide different Customertypes.
+    /// Branch out Customer.CreateCustomer to provide different customer types.
     /// Add Student!
     /// Rating 1
     /// </summary>
@@ -125,7 +126,7 @@ public class ToBeWritten
         // Create company if defined else default to <Customer>, function of <> will be covered in lecture 3 or 4
         var company = TestHelpers.CreateClassIfDefinedOrDefault<Customer>("Company", "SimpleShop");
         invoicePosition.Customer = company;
-        var price = invoicePosition.Price();
+        var price = invoicePosition.totalPrice();
         Assert.AreEqual((double)price, 7.00, 0.01);
     }
 
@@ -140,7 +141,7 @@ public class ToBeWritten
         // Create company if defined else default to <Customer>, function of <> will be covered in lecture 3 or 4
         var student = TestHelpers.CreateClassIfDefinedOrDefault<Customer>("Student", "SimpleShop");
         invoicePosition.Customer = student;
-        var price = invoicePosition.Price();
+        var price = invoicePosition.totalPrice();
         Assert.AreEqual((double) price, 6.66, 0.01);
     }
         
@@ -152,12 +153,14 @@ public class ToBeWritten
     [Category("InvoicePosition")]
     public void Invoice_CreateOrderInputWithStudentOrCompany_Valid()
     {
-        pairs[1] = new KeywordPair(new Keyword("CustomerType"), "Company");
+        pairs[3] = new KeywordPair(new Keyword("CustomerType"), "Company");
         var invoice = InvoicePosition.CreateFromPairs(pairs);
-        // Make sure that invoice has a set customer, otherwise this will be a NullReferenceExeption
-        Assert.AreEqual("SimpleShop.Company", invoice.Customer.GetType().ToString(), "");
 
-        pairs[1] = new KeywordPair(new Keyword("CustomerType"), "Student");
+        // Make sure that invoice has a set customer, otherwise this will be a NullReferenceExeption
+        Assert.AreEqual("SimpleShop.Company", invoice.Customer.GetType().ToString());
+
+
+        pairs[3] = new KeywordPair(new Keyword("CustomerType"), "Student");
             
         // Make sure that invoice has a set customer, otherwise this will be a NullReferenceExeption
         invoice = InvoicePosition.CreateFromPairs(pairs);
@@ -180,11 +183,13 @@ public class ToBeWritten
             SimpleShop.Main( new string[] { "SampleOrder.tag" } );
                 
             var output = sw.ToString();
-            var kirk_burger = output.IndexOf("James T. Kirk, Burger, 2, 19.04", StringComparison.Ordinal) >= 0;
-            var kirk_coke = output.IndexOf("James T. Kirk, Coke, 1, 2.98", StringComparison.Ordinal) >= 0;
-            var spock_ice = output.IndexOf("S'chn T'gai Spock, IceCream, 7, 37.49", StringComparison.Ordinal) >= 0;
-            var spock_ice_discount = output.IndexOf("S'chn T'gai Spock, IceCream, 7, 29.99", StringComparison.Ordinal) >= 0;
-            Assert.IsTrue( kirk_burger && kirk_coke && (spock_ice || spock_ice_discount) );
+            var burger = output.IndexOf("James T. Kirk, Not specified, Burger, 2, 8.00, 19.04", StringComparison.Ordinal) >= 0;
+            var ice_cream = output.IndexOf("S'chn T'gai Spock, Not specified, IceCream, 7, 4.50, 37.49", StringComparison.Ordinal) >= 0;
+            var bread = output.IndexOf("Siemens AG, Company, Bread, 6, 0.99, 5.94", StringComparison.Ordinal) >= 0;
+            var chocolate_discount = output.IndexOf("David, Student, Chocolate, 3, 3.50, 10", StringComparison.Ordinal) >= 0;
+            var ice_cream_discount = output.IndexOf("David, Student, IceCream, 1, 4.50, 4.28", StringComparison.Ordinal) >= 0;
+
+            Assert.IsTrue(burger && ice_cream && bread && chocolate_discount && ice_cream_discount);
         }
     }
 }   // class ToBeWritten

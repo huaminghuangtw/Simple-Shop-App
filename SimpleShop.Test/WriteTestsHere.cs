@@ -33,10 +33,10 @@ public class Tests
         invoice = new InvoicePosition
         {
             Customer = new Customer(),
-            ItemIdentifier = 0,
+            ItemNumber = 0,
             ItemName = "SpringRoll",
-            Orders = 2,
-            SingleUnitPrice = 3.50m
+            AmountOrdered = 2,
+            UnitPrice = 3.50m
         };
     }
         
@@ -273,8 +273,8 @@ public class Tests
     [Category("Invoice")]
     public void Invoice_OrdersAndNetPriceValid_CalculateCorrectPrice()
     {
-        var NetPrice = (1 + Customer.ValueAddedTax) * (invoice.SingleUnitPrice * invoice.Orders);
-        Assert.AreEqual( invoice.Price(), NetPrice );
+        var NetPrice = (1 + Customer.ValueAddedTax) * (invoice.UnitPrice * invoice.AmountOrdered);
+        Assert.AreEqual( invoice.totalPrice(), NetPrice );
     }
 }   // class Tests
 }   // namespace SimpleShop.Test

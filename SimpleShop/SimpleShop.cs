@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace SimpleShop
@@ -7,7 +10,7 @@ public static class SimpleShop
 {
     public static string[] ReadFileLineByLine(string path)
     {
-        var reader = new System.IO.StreamReader(path);
+        var reader = new StreamReader(path);
         var line_counter = 0;
         var needed_space = 0;
 
@@ -42,7 +45,7 @@ public static class SimpleShop
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.Write(  "#########################################\n" +
                         "#\t\t\t\t\t#\n" +
-                        "#\tWelcome to the SimpleShop\t#\n" +
+                        "#\tWelcome to the SimpleShop!\t#\n" +
                         "#\t\t\t\t\t#\n#" +
                         "########################################\n\n"  );
         Console.ForegroundColor = tmp;
@@ -51,7 +54,7 @@ public static class SimpleShop
     static void PrintInvoice(InvoicePosition ivp)
     {
         Console.WriteLine(String.Join(", ", new string[] {
-            ivp.Customer.Name, ivp.ItemName, ivp.Orders.ToString(), ivp.Price().ToString("0.##")
+            ivp.Customer.Name, ivp.Customer.Type, ivp.ItemName, ivp.AmountOrdered.ToString(), ivp.UnitPrice.ToString(), ivp.totalPrice().ToString("0.##")
         }));
     }
 
@@ -59,19 +62,23 @@ public static class SimpleShop
     {
         if (args.Length != 1)
         {
-            Console.WriteLine("That is not how you use this shop!");
+            Console.WriteLine("Error - Please specify the path to the TAG file!");
             return 1;
         }
 
         if (!File.Exists(args[0]))
         {
-            Console.WriteLine("Orders not found!");
+            Console.WriteLine("Orders TAG file not found!");
             return 1;
         }
             
         PrintWelcome();
         var orders = ReadFileLineByLine(args[0]);
+
+        var tmp = Console.ForegroundColor;
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
         Console.WriteLine("Invoices:");
+        Console.ForegroundColor = tmp;
 
         // (1) Setup the ShopParser
         ShopParser parser = new ShopParser();
@@ -82,10 +89,11 @@ public static class SimpleShop
             new Keyword("CustomerName"),
             new Keyword("CustomerType"),
             new Keyword("AmountOrdered"),
-            new Keyword("NetPrice")
+            new Keyword("UnitPrice")
         };
         parser.SetKeywords(validKeywords);
-        
+
+        var records = new List<InvoicePosition>();
         foreach (var order in orders)
         {
             // (2) Parse the "orders"
@@ -94,8 +102,23 @@ public static class SimpleShop
             // (3) Create invoices from "orders" (which should be in TAG format)
             var invoice = InvoicePosition.CreateFromPairs(findings);
 
+            records.Add(invoice);
+
             // (4) Output the sum for each customer, you must use the PrintInvoice function
             PrintInvoice(invoice);
+        }
+
+        // (5) Write data into a CSV file
+        using (var writer = new StreamWriter("myfile.csv"))
+        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        {
+                csv.WriteHeader<InvoicePosition>();
+                csv.NextRecord();
+                foreach (var record in records)
+                {
+                    csv.WriteRecord(record);
+                    csv.NextRecord();
+                }
         }
 
         return 0;

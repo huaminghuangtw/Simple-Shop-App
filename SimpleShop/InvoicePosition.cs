@@ -6,15 +6,22 @@ namespace SimpleShop
 {
 public class InvoicePosition
 {
-    public uint ItemIdentifier = 0;
-    public string ItemName = "";
-    public uint Orders = 0;
-    public decimal SingleUnitPrice = 0.0m;
-    public Customer Customer;
+        /*public uint ItemIdentifier = 0;
+        public string ItemName = "";
+        public uint AmountOrdered = 0;
+        public decimal UnitPrice = 0.0m;
+        public Customer Customer;*/
 
-    public virtual decimal Price()
+    public Customer Customer { get; set; }
+    public uint ItemNumber { get; set; }
+    public string ItemName { get; set; }
+    public uint AmountOrdered { get; set; }
+    public decimal UnitPrice { get; set; }
+    public decimal TotalPrice { get; set; }
+    public decimal totalPrice()
     {
-        return this.Customer.CalculatePrice(this.SingleUnitPrice * Orders);
+        TotalPrice = Customer.CalculatePrice(UnitPrice * AmountOrdered);
+        return TotalPrice;
     }
 
     private KeywordPair[] RemoveNonLetterCharacters(KeywordPair[] dirtyPairs)
@@ -43,7 +50,7 @@ public class InvoicePosition
             switch (pair.Key.GetString())
             {
                 case "ItemNumber":
-                    invoice.ItemIdentifier = uint.Parse(pair.Value);
+                    invoice.ItemNumber = uint.Parse(pair.Value);
                     break;
                 case "ItemName":
                     invoice.ItemName = pair.Value;
@@ -55,10 +62,10 @@ public class InvoicePosition
                     invoice.Customer = Customer.CreateCustomer(invoice.Customer.Name, pair.Value);
                     break;
                 case "AmountOrdered":
-                    invoice.Orders = uint.Parse(pair.Value);
+                    invoice.AmountOrdered = uint.Parse(pair.Value);
                     break;
-                case "NetPrice":
-                    invoice.SingleUnitPrice = decimal.Parse(pair.Value);
+                case "UnitPrice":
+                    invoice.UnitPrice = decimal.Parse(pair.Value);
                     break;
                 default:
                     Console.WriteLine("<unknown keyword>");

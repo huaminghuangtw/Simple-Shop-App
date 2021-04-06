@@ -4,7 +4,7 @@ This simple shop software is developed for generating invoices with tax calculat
 The tag file contains information such as ItemNumber, ItemName, CustomerName, CustomerType, AmountOrdered, NetPrice.
 To print invoices for each customer, you need a basis for all your pricing calculations. The value added tax (VAT) rate of 19%, for example, is applied to all customer types (if applicable) except for companies.
 Also, for students, 20% discount will be apllied before VAT.
-By running the program, it will output an invoice with a summary for each customer.   
+By running the program, it will output an invoice with a summary for each customer and write data into a CSV file.   
 
 ![alt text](SampleOutput.png)
 

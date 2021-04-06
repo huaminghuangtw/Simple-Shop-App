@@ -101,14 +101,15 @@ public static class SimpleShop
 
             // (3) Create invoices from "orders" (which should be in TAG format)
             var invoice = InvoicePosition.CreateFromPairs(findings);
-
+            
+            // (4) Add each invoice into records for further CSV file manipulation
             records.Add(invoice);
 
-            // (4) Output the sum for each customer, you must use the PrintInvoice function
+            // (5) Output the sum for each customer, you must use the PrintInvoice function
             PrintInvoice(invoice);
         }
 
-        // (5) Write data into a CSV file
+        // (6) Write data into a CSV file
         using (var writer = new StreamWriter("myfile.csv"))
         using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
         {

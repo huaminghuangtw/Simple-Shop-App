@@ -180,7 +180,7 @@ public class ToBeWritten
         using (var sw = new StringWriter())
         {
             Console.SetOut(sw);
-            SimpleShop.Main( new string[] { "SampleOrder.tag" } );
+            SimpleShop.Main( new string[] { "../../../../SampleOrder.tag" } );
                 
             var output = sw.ToString();
             var burger = output.IndexOf("James T. Kirk, Not specified, Burger, 2, 8.00, 19.04", StringComparison.Ordinal) >= 0;

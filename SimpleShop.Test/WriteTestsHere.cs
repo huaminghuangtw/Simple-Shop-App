@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using System;
-using System.IO;
 // Remember: [UnitOfWork_StateUnderTest_ExpectedBehaviour]
 
 namespace SimpleShop.Test

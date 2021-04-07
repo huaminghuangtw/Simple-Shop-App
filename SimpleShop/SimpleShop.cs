@@ -110,7 +110,7 @@ public static class SimpleShop
         }
 
         // (6) Write data into a CSV file
-        using (var writer = new StreamWriter("myfile.csv"))
+        using (var writer = new StreamWriter("../../../../myfile.csv"))
         using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
         {
                 csv.WriteHeader<InvoicePosition>();

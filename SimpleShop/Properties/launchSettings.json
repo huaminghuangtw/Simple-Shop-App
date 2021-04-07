@@ -2,7 +2,7 @@
   "profiles": {
     "SimpleShop": {
       "commandName": "Project",
-      "commandLineArgs": "SampleOrder.tag"
+      "commandLineArgs": "../../../../SampleOrder.tag"
     }
   }
 }

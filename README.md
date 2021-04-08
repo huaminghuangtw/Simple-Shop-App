@@ -20,7 +20,7 @@ By running the program, it will output an invoice with a summary for each custom
 2. Open **SimpleShop.sln**
 3. Open "Package Manager Console" in Visual Studio
    > To open the console in Visual Studio, go to the main menu and select Tools > NuGet Package Manager > Package Manager Console command
-4. Run the following command to install CsvHelper package
+4. Run the following command to install [CsvHelper](https://github.com/JoshClose/CsvHelper) package
    ```
    PM> Install-Package CsvHelper
    ```

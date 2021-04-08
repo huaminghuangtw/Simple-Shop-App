@@ -11,7 +11,9 @@ To print invoices for each customer, you need a basis for all your pricing calcu
 Also, for students, 20% discount will be applied before VAT.
 By running the program, it will output an invoice with a summary for each customer and write data into a CSV file (See [myfile.csv](./myfile.csv)).   
 
-![SampleOutput](SampleOutput.png)
+<p align="center">
+   <img src="SampleOutput.png">
+</p>
 
 ## Setup
 1. Clone this project to your local machine:
@@ -24,6 +26,8 @@ By running the program, it will output an invoice with a summary for each custom
    ```
    
 ## How To Use
-#### **Method 1:** Change directory to Simple-Shop-Project\SimpleShop\bin\Debug\netcoreapp3.1, then pass the tag file as the command-line argument with the command: ```SimpleShop ../../../../SampleOrder.tag```  
-#### **Method 2:** Debugging with command-line arguments within Visual Studio (See [here](https://dailydotnettips.com/how-to-pass-command-line-arguments-using-visual-studio/) for detailed steps)
-  
+**Method 1:**
+> Change directory to Simple-Shop-Project\SimpleShop\bin\Debug\netcoreapp3.1, then pass the tag file as the command-line argument with the command: ```SimpleShop ../../../../SampleOrder.tag```  
+
+**Method 2:**
+> Debugging with command-line arguments within Visual Studio (See [here](https://dailydotnettips.com/how-to-pass-command-line-arguments-using-visual-studio/) for detailed steps)

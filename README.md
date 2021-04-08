@@ -11,9 +11,12 @@ To print invoices for each customer, you need a basis for all your pricing calcu
 Also, for students, 20% discount will be applied before VAT.
 By running the program, it will output an invoice with a summary for each customer and write data into a CSV file (See [myfile.csv](./myfile.csv)).   
 
-
 <p align="center">
    <img src="SampleOutput.png">
+</p>
+
+<p align="center">
+   <img src="SampleCSV.png">
 </p>
 
 ## Setup

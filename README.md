@@ -6,7 +6,7 @@ Simple-Shop-Project
 ## General Info
 As a business owner you probably often have to prepare invoices with the help of billing machines.
 This simple shop software is developed for generating invoices with tax calculation based on orders in TAG format (See [SampleOrder.tag](./SimpleShop.Test/SampleOrder.tag)).
-The tag file contains information such as ItemNumber, ItemName, CustomerName, CustomerType, AmountOrdered, UnitPrice.
+The tag file contains information such as **ItemNumber**, **ItemName**, **CustomerName**, **CustomerType**, **AmountOrdered**, **UnitPrice**.
 To print invoices for each customer, you need a basis for all your pricing calculations. The value added tax (VAT) rate of 19%, for example, is applied to all customer types (if applicable) except for companies.
 Also, for students, 20% discount will be applied before VAT.
 By running the program, it will output an invoice with a summary for each customer and write data into a CSV file (See [myfile.csv](./myfile.csv)).   

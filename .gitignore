@@ -1,9 +1,9 @@
-.idea
+.idea/
+.vs/
 SimpleShop/obj
 SimpleShop/bin
 SimpleShop.Test/obj
 SimpleShop.Test/obj
 SimpleShop.Test/bin/*
-task#1.sln.DotSettings.user
 *.pdb
 *.dll

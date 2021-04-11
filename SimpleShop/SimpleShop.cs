@@ -113,13 +113,13 @@ public static class SimpleShop
         using (var writer = new StreamWriter("../../../../myfile.csv"))
         using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
         {
-                csv.WriteHeader<InvoicePosition>();
+            csv.WriteHeader<InvoicePosition>();
+            csv.NextRecord();
+            foreach (var record in records)
+            {
+                csv.WriteRecord(record);
                 csv.NextRecord();
-                foreach (var record in records)
-                {
-                    csv.WriteRecord(record);
-                    csv.NextRecord();
-                }
+            }
         }
 
         return 0;

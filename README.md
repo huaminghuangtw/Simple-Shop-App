@@ -1,5 +1,5 @@
-Simple-Shop-Project
-===================
+Simple-Shop-App
+===============
 
 > A simple invoice maker with tax calculation written in C#.
 

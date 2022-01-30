@@ -3,8 +3,6 @@ Simple-Shop-App
 
 > A simple invoice maker with tax calculation written in C#.
 
----
-
 ### Description
 As a business owner you probably often have to prepare invoices with the help of billing machines.
 This simple shop software is developed for generating invoices with tax calculation based on orders in TAG format (See [SampleOrder.tag](./SimpleShop.Test/SampleOrder.tag)).
@@ -45,4 +43,4 @@ By running the program, it will output an invoice with a summary for each custom
 ---
 
 ### Contact
-If you have any question or suggestion, feel free to contact me at huaming.huang.tw@gmail.com. Contributions are also welcomed. Please open a [pull-request](https://github.com/hmhuang0501/Simple-Shop-App/compare) or an [issue](https://github.com/hmhuang0501/Simple-Shop-App/issues/new) in this repository.
+If you have any question or suggestion, feel free to contact me at huaming.huang.tw@gmail.com. Contributions are also welcomed. Please open a [pull-request](https://github.com/huaminghuangtw/Simple-Shop-App/compare) or an [issue](https://github.com/huaminghuangtw/Simple-Shop-App/issues/new) in this repository.
